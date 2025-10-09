@@ -1,0 +1,85 @@
+# Dependencias de Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Backend dependencies
+backend/node_modules/
+backend/npm-debug.log*
+backend/.env
+
+# Archivos de distribución
+dist/
+build/
+out/
+release/
+
+# Archivos temporales
+temp/
+*.tmp
+*.temp
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Variables de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+
+# Archivos de Electron
+out/
+app/
+
+# Archivos de Windows
+*.lnk
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de caché
+.cache/
+.parcel-cache/
+
+# Archivos de testing
+coverage/
+.coverage
+.nyc_output
+
+# Archivos específicos del proyecto
+extracted_projects/
+analysis_cache/

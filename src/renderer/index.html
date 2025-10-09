@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Version Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>
+                <span class="app-icon">🔍</span>
+                Git Version Analyzer
+            </h1>
+            <p class="app-subtitle">Analiza el historial y versiones de tus proyectos Git</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section" id="uploadSection">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">📁</div>
+                        <h3>Selecciona tu proyecto</h3>
+                        <p>Arrastra y suelta una carpeta o archivo comprimido</p>
+                        <div class="upload-buttons">
+                            <button class="btn btn-primary" id="selectFolderBtn">
+                                📂 Seleccionar Carpeta
+                            </button>
+                            <button class="btn btn-secondary" id="selectFileBtn">
+                                📄 Seleccionar Archivo
+                            </button>
+                        </div>
+                        <div class="supported-formats">
+                            <small>Formatos soportados: .zip, .rar, .7z, .tar.gz o carpetas</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analysis Section (hidden initially) -->
+            <section class="analysis-section" id="analysisSection" style="display: none;">
+                <div class="analysis-header">
+                    <h2 id="projectName">Proyecto Cargado</h2>
+                    <button class="btn btn-outline" id="newProjectBtn">Nuevo Proyecto</button>
+                </div>
+
+                <div class="analysis-content">
+                    <!-- Project Info Panel -->
+                    <div class="info-panel">
+                        <h3>Información del Proyecto</h3>
+                        <div class="info-grid" id="projectInfo">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Commits List -->
+                    <div class="commits-panel">
+                        <h3>Historial de Commits</h3>
+                        <div class="commits-list" id="commitsList">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Loading Section -->
+            <section class="loading-section" id="loadingSection" style="display: none;">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <h3>Analizando proyecto...</h3>
+                    <p id="loadingMessage">Extracting files...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="apiClient.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>
