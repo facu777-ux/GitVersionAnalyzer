@@ -5,6 +5,44 @@ Todos los cambios notables de este proyecto se documentarán en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-10-09
+
+### ✨ Agregado
+- **🔐 Sistema de autenticación completo** con pantalla de login moderna
+- **🐙 Integración con GitHub** (simulación OAuth para obtener user.name y user.email)
+- **👤 Registro manual** de usuarios con nombre, email y GitHub username
+- **👻 Acceso como invitado** para uso sin registro
+- **💾 Persistencia de sesión** - no requiere login en próximas aperturas
+- **🎨 Interfaz de login moderna** adaptada a la estética de la aplicación
+- **📱 Diseño responsive** para la pantalla de login
+- **🔄 Información del usuario** visible en la aplicación principal
+- **🚪 Funcionalidad de logout** desde la aplicación principal
+
+### 🎨 Diseño
+- **Pantalla de login** con animaciones suaves y transiciones fluidas
+- **Estilos consistentes** con el tema de Git Version Analyzer
+- **Iconografía moderna** con Font Awesome integrado
+- **Gradientes y efectos** visuales profesionales
+
+### 🔧 Técnico
+- **IPC handlers** para manejo de autenticación entre procesos
+- **Gestión de ventanas** separadas para login y aplicación principal
+- **Almacenamiento local** de datos de usuario en userData
+- **Simulación OAuth** preparada para implementación real
+
+### 📋 Archivos Nuevos
+- `src/renderer/login.html` - Pantalla de login
+- `src/renderer/login-styles.css` - Estilos de la pantalla de login  
+- `src/renderer/login.js` - Lógica de autenticación
+- `LOGIN_FEATURES.md` - Documentación de funcionalidades de login
+
+### 🔄 Modificado
+- **main.js**: Refactorizado para manejar ventanas de login y principal
+- **renderer.js**: Agregada información del usuario y funcionalidad de logout
+- **Flujo de inicio**: Ahora comienza con pantalla de login
+
+---
+
 ## [2.0.0] - 2025-10-09
 
 ### ✨ Agregado

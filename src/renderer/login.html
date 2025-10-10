@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Version Analyzer - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="login-styles.css">
+</head>
+<body>
+    <div class="app-header">
+        <h1>
+            <span class="app-icon">🔍</span>
+            Git Version Analyzer
+        </h1>
+        <p class="app-subtitle">Analiza el historial y versiones de tus proyectos Git</p>
+    </div>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form id="registerForm">
+                <h1>Crear Cuenta</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon" id="githubRegister"><i class="fa-brands fa-github"></i></a>
+                </div>
+                <span>o proporciona tus datos manualmente</span>
+                <input type="text" placeholder="Nombre completo" id="registerName" required>
+                <input type="email" placeholder="Email" id="registerEmail" required>
+                <input type="text" placeholder="Usuario de GitHub (opcional)" id="registerGithub">
+                <button type="submit">Registrarse</button>
+            </form>
+        </div>
+        
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Iniciar Sesión</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon" id="githubLogin"><i class="fa-brands fa-github"></i></a>
+                </div>
+                <span>o usa tus credenciales</span>
+                <input type="email" placeholder="Email" id="loginEmail">
+                <input type="text" placeholder="Usuario de GitHub" id="loginGithub">
+                <div class="guest-access">
+                    <button type="button" class="guest-btn" id="guestAccess">
+                        <i class="fas fa-user-secret"></i> Acceder como Invitado
+                    </button>
+                </div>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </div>
+        
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>¡Bienvenido de vuelta!</h1>
+                    <p>Ingresa tus datos para acceder a todas las funciones de análisis Git</p>
+                    <button class="hidden" id="login">Iniciar Sesión</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>¡Hola, Desarrollador!</h1>
+                    <p>Regístrate para guardar tus análisis y sincronizar con GitHub</p>
+                    <button class="hidden" id="register">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Conecta tu cuenta de GitHub para funcionalidades avanzadas como push automático y sincronización</p>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

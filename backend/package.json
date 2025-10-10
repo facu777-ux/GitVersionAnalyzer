@@ -1,6 +1,6 @@
 {
   "name": "git-version-analyzer-backend",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Backend API para Git Version Analyzer - Servicios de análisis de repositorios Git",
   "main": "server.js",
   "scripts": {

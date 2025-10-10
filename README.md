@@ -18,12 +18,14 @@ El proyecto está dividido en dos componentes principales:
 
 ## Características
 
-- 🔍 **Análisis completo de repositorios Git**: Visualiza commits, ramas y estadísticas
+- � **Sistema de autenticación moderno**: Login con GitHub, registro manual o acceso como invitado
+- �🔍 **Análisis completo de repositorios Git**: Visualiza commits, ramas y estadísticas
 - 📁 **Soporte múltiples formatos**: Carpetas, .zip, .rar, .7z, .tar.gz
 - 🎯 **Interfaz intuitiva**: Drag & drop para cargar proyectos fácilmente
 - 📊 **Visualización de datos**: Historial de commits y información del proyecto
 - ⚡ **Basado en Electron**: Aplicación nativa multiplataforma
 - 🌐 **API REST**: Backend separado para máxima flexibilidad
+- 👤 **Gestión de usuarios**: Persistencia de sesión y datos de usuario
 
 ## Funcionalidades Planificadas
 
@@ -34,11 +36,13 @@ El proyecto está dividido en dos componentes principales:
 - [ ] Soporte para archivos comprimidos
 
 ### Futuras Versiones
+- [ ] OAuth real con GitHub para push automático
 - [ ] Visualización gráfica del árbol de commits
 - [ ] Estadísticas avanzadas (líneas de código, archivos modificados)
 - [ ] Comparación entre versiones específicas
 - [ ] Exportación de reportes
 - [ ] Temas personalizables
+- [ ] Sincronización de análisis con GitHub
 
 ## Requisitos
 

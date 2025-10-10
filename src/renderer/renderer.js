@@ -16,13 +16,24 @@ const loadingMessage = document.getElementById('loadingMessage');
 
 // Estado de la aplicación
 let currentProject = null;
+let currentUser = null;
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
 });
 
-function initializeApp() {
+async function initializeApp() {
+    // Obtener datos del usuario autenticado
+    try {
+        currentUser = await ipcRenderer.invoke('get-user-data');
+        if (currentUser) {
+            setupUserInterface();
+        }
+    } catch (error) {
+        console.error('Error obteniendo datos del usuario:', error);
+    }
+    
     // Botones de selección
     selectFolderBtn.addEventListener('click', selectFolder);
     selectFileBtn.addEventListener('click', selectFile);
@@ -37,6 +48,98 @@ function initializeApp() {
             showError('⚠️ Backend no disponible. Asegúrate de ejecutar el servidor backend en http://localhost:3001');
         }
     });
+}
+
+// Configurar interfaz de usuario
+function setupUserInterface() {
+    if (!currentUser) return;
+    
+    // Crear elemento de información del usuario en el header
+    const header = document.querySelector('.app-header');
+    if (header && !document.getElementById('userInfo')) {
+        const userInfo = document.createElement('div');
+        userInfo.id = 'userInfo';
+        userInfo.innerHTML = `
+            <div class="user-info">
+                <div class="user-details">
+                    <span class="user-name">👤 ${currentUser.name}</span>
+                    ${currentUser.githubUsername ? `<span class="github-user">🐙 ${currentUser.githubUsername}</span>` : ''}
+                    <span class="access-type">${getAccessTypeLabel(currentUser.accessType)}</span>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
+        `;
+        
+        // Agregar estilos para la información del usuario
+        if (!document.getElementById('userStyles')) {
+            const style = document.createElement('style');
+            style.id = 'userStyles';
+            style.textContent = `
+                .user-info {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    background: rgba(255, 255, 255, 0.1);
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    margin-top: 20px;
+                    backdrop-filter: blur(10px);
+                }
+                .user-details {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+                .user-name, .github-user, .access-type {
+                    font-size: 0.9rem;
+                    color: rgba(255, 255, 255, 0.9);
+                }
+                .access-type {
+                    font-size: 0.8rem;
+                    opacity: 0.7;
+                }
+                .logout-btn {
+                    background: rgba(255, 255, 255, 0.2);
+                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    color: white;
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                }
+                .logout-btn:hover {
+                    background: rgba(255, 255, 255, 0.3);
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        header.appendChild(userInfo);
+    }
+}
+
+function getAccessTypeLabel(accessType) {
+    switch (accessType) {
+        case 'github': return '🔗 Conectado con GitHub';
+        case 'manual': return '📝 Registro Manual';
+        case 'guest': return '👻 Usuario Invitado';
+        default: return '';
+    }
+}
+
+// Función para cerrar sesión
+window.handleLogout = async function() {
+    try {
+        const success = await ipcRenderer.invoke('logout');
+        if (success) {
+            console.log('Sesión cerrada exitosamente');
+        }
+    } catch (error) {
+        console.error('Error cerrando sesión:', error);
+    }
 }
 
 // Configurar Drag and Drop

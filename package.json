@@ -1,6 +1,6 @@
 {
   "name": "git-version-analyzer",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Aplicación de escritorio para analizar versiones y historial de proyectos Git - Arquitectura Backend/Frontend separada",
   "main": "src/main/main.js",
   "scripts": {
