@@ -51,27 +51,38 @@ async function handleGitHubLogin() {
     try {
         showLoading('Conectando con GitHub...');
         
-        // Simular autenticación con GitHub
-        // En una implementación real, aquí se abriría una ventana de OAuth
-        const mockGitHubUser = await simulateGitHubAuth();
+        // Obtener URL de autenticación del backend
+        const response = await fetch('http://localhost:3001/api/auth/github', {
+            credentials: 'include'
+        });
         
-        if (mockGitHubUser) {
-            const userData = {
-                name: mockGitHubUser.name,
-                email: mockGitHubUser.email,
-                githubUsername: mockGitHubUser.login,
-                avatarUrl: mockGitHubUser.avatar_url,
-                accessType: 'github'
-            };
-            
-            // Guardar datos del usuario
-            await saveUserData(userData);
-            
-            // Proceder a la aplicación principal
-            proceedToMainApp(userData);
+        if (!response.ok) {
+            throw new Error('Error al obtener URL de autenticación');
         }
+        
+        const data = await response.json();
+        
+        // Abrir URL de autenticación en el navegador externo
+        require('electron').shell.openExternal(data.url);
+        
+        // Mostrar mensaje al usuario
+        hideLoading();
+        showInfo('Se ha abierto el navegador para autenticarte con GitHub. Una vez autorizado, volverás a la aplicación.');
+        
+        // Escuchar el evento de autenticación exitosa desde el proceso principal
+        ipcRenderer.once('github-auth-success', (event, userData) => {
+            console.log('Autenticación exitosa:', userData);
+            proceedToMainApp(userData);
+        });
+        
+        ipcRenderer.once('github-auth-error', (event, error) => {
+            console.error('Error de autenticación:', error);
+            showError('Error al autenticar con GitHub: ' + error);
+        });
+        
     } catch (error) {
         console.error('Error en autenticación GitHub:', error);
+        hideLoading();
         showError('Error al conectar con GitHub. Intenta de nuevo.');
     }
 }
@@ -206,14 +217,38 @@ function showLoading(message) {
     `;
     
     document.body.appendChild(loadingOverlay);
+}
+
+// Función para ocultar loading
+function hideLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+// Función para mostrar información
+function showInfo(message) {
+    const infoDiv = document.createElement('div');
+    infoDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #3498db;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        z-index: 10000;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        max-width: 400px;
+    `;
+    infoDiv.textContent = message;
     
-    // Remover loading después de un tiempo
+    document.body.appendChild(infoDiv);
+    
     setTimeout(() => {
-        const overlay = document.getElementById('loadingOverlay');
-        if (overlay) {
-            overlay.remove();
-        }
-    }, 3000);
+        infoDiv.remove();
+    }, 10000);
 }
 
 // Función para mostrar errores

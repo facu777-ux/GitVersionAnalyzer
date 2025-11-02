@@ -18,8 +18,11 @@
   "author": "Tu Nombre",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.13.1",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^4.21.2",
+    "express-session": "^1.18.2",
     "extract-zip": "^2.0.1",
     "fs-extra": "^11.3.2",
     "multer": "^1.4.5-lts.1",

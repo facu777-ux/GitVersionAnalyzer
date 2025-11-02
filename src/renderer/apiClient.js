@@ -2,12 +2,40 @@
 class ApiClient {
   constructor(baseURL = 'http://localhost:3001') {
     this.baseURL = baseURL;
+    this.accessToken = null;
+    
+    // Intentar obtener ipcRenderer si está disponible (entorno Electron)
+    try {
+      const { ipcRenderer } = require('electron');
+      this.ipcRenderer = ipcRenderer;
+    } catch (e) {
+      // No estamos en Electron, ipcRenderer no disponible
+      this.ipcRenderer = null;
+    }
+  }
+
+  // Obtener token desde el proceso principal de Electron
+  async getAccessToken() {
+    if (!this.accessToken && this.ipcRenderer) {
+      try {
+        this.accessToken = await this.ipcRenderer.invoke('get-access-token');
+        console.log('[ApiClient] Token obtenido desde proceso principal:', this.accessToken ? '✓ Token presente' : '✗ Token no disponible');
+      } catch (error) {
+        console.error('[ApiClient] Error al obtener token:', error);
+      }
+    }
+    return this.accessToken;
   }
 
   // Método genérico para hacer peticiones
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
+    
+    // Obtener token de acceso si está disponible
+    const token = await this.getAccessToken();
+    
     const config = {
+      credentials: 'include', // ← IMPORTANTE: Enviar cookies de sesión
       headers: {
         'Content-Type': 'application/json',
         ...options.headers
@@ -15,8 +43,21 @@ class ApiClient {
       ...options
     };
 
+    // Si hay token, agregarlo al header de Authorization
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+      console.log(`[ApiClient] ✓ Token agregado al header Authorization para ${endpoint}`);
+      console.log(`[ApiClient]   Token (primeros 20 chars): ${token.substring(0, 20)}...`);
+    } else {
+      console.warn(`[ApiClient] ⚠ No hay token disponible para ${endpoint}`);
+    }
+
+    console.log(`[ApiClient] → ${options.method || 'GET'} ${url}`);
+
     try {
       const response = await fetch(url, config);
+      
+      console.log(`[ApiClient] ← ${response.status} ${response.statusText}`);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -24,7 +65,7 @@ class ApiClient {
       
       return await response.json();
     } catch (error) {
-      console.error('API request failed:', error);
+      console.error('[ApiClient] ✗ API request failed:', error);
       throw error;
     }
   }
@@ -49,9 +90,19 @@ class ApiClient {
 
     const url = `${this.baseURL}/api/projects/upload`;
     
+    // Obtener token de acceso si está disponible
+    const token = await this.getAccessToken();
+    
+    const headers = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     try {
       const response = await fetch(url, {
         method: 'POST',
+        credentials: 'include', // ← Enviar cookies
+        headers: headers,
         body: formData
       });
       

@@ -17,16 +17,29 @@
                 </h1>
                 <p class="app-subtitle">Analiza el historial y versiones de tus proyectos Git</p>
             </div>
+            <div class="user-info" id="userInfo">
+                <!-- Se llenará dinámicamente -->
+            </div>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Upload Section -->
-            <section class="upload-section" id="uploadSection">
+            <!-- Source Selection Tabs -->
+            <div class="source-tabs" id="sourceTabs">
+                <button class="tab-btn active" data-tab="local">
+                    <span>💻</span> Proyectos Locales
+                </button>
+                <button class="tab-btn" data-tab="github" id="githubTab">
+                    <span>🐙</span> Repositorios GitHub
+                </button>
+            </div>
+
+            <!-- Local Upload Section -->
+            <section class="upload-section tab-content active" id="localSection" data-content="local">
                 <div class="upload-area" id="uploadArea">
                     <div class="upload-content">
                         <div class="upload-icon">📁</div>
-                        <h3>Selecciona tu proyecto</h3>
+                        <h3>Selecciona tu proyecto local</h3>
                         <p>Arrastra y suelta una carpeta o archivo comprimido</p>
                         <div class="upload-buttons">
                             <button class="btn btn-primary" id="selectFolderBtn">
@@ -39,6 +52,57 @@
                         <div class="supported-formats">
                             <small>Formatos soportados: .zip, .rar, .7z, .tar.gz o carpetas</small>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GitHub Repositories Section -->
+            <section class="github-section tab-content" id="githubSection" data-content="github" style="display: none;">
+                <div class="github-repos-container">
+                    <div class="repos-header">
+                        <h3>
+                            <span>🐙</span>
+                            Tus Repositorios en GitHub
+                        </h3>
+                        <button class="btn btn-primary" id="refreshReposBtn">
+                            🔄 Actualizar
+                        </button>
+                    </div>
+                    
+                    <div class="repos-filters">
+                        <input 
+                            type="text" 
+                            id="repoSearchInput" 
+                            class="search-input" 
+                            placeholder="🔍 Buscar repositorio..."
+                        />
+                        <select id="repoSortSelect" class="sort-select">
+                            <option value="updated">Recientemente actualizados</option>
+                            <option value="name">Nombre (A-Z)</option>
+                            <option value="stars">Más estrellas</option>
+                        </select>
+                    </div>
+
+                    <div class="repos-grid" id="reposGrid">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+
+                    <div class="repos-loading" id="reposLoading" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Cargando repositorios...</p>
+                    </div>
+
+                    <div class="repos-empty" id="reposEmpty" style="display: none;">
+                        <div class="empty-icon">📭</div>
+                        <h4>No se encontraron repositorios</h4>
+                        <p>Aún no tienes repositorios en GitHub o necesitas iniciar sesión</p>
+                    </div>
+
+                    <div class="repos-error" id="reposError" style="display: none;">
+                        <div class="error-icon">❌</div>
+                        <h4>Error al cargar repositorios</h4>
+                        <p id="reposErrorMessage"></p>
+                        <button class="btn btn-secondary" id="retryReposBtn">Reintentar</button>
                     </div>
                 </div>
             </section>

@@ -8,14 +8,19 @@ class ProjectController {
 
   // Subir y analizar archivo comprimido
   static async uploadProject(req, res) {
+    console.log('\n📦 UPLOAD PROJECT - Iniciando');
     try {
       if (!req.file) {
+        console.log('✗ No se proporcionó archivo');
         return res.status(400).json({ error: 'No se proporcionó archivo' });
       }
 
       const projectId = uuidv4();
       const filePath = req.file.path;
       const originalName = req.file.originalname;
+      
+      console.log(`📁 Archivo recibido: ${originalName}`);
+      console.log(`📍 Ruta temporal: ${filePath}`);
 
       // Extraer archivo
       const extractionResult = await FileExtractionService.extractArchive(filePath, projectId);
@@ -55,23 +60,32 @@ class ProjectController {
 
   // Analizar carpeta directamente
   static async analyzeFolder(req, res) {
+    console.log('\n📂 ANALYZE FOLDER - Iniciando');
     try {
       const { folderPath } = req.body;
+      console.log(`📍 Ruta solicitada: ${folderPath}`);
 
       if (!folderPath) {
+        console.log('✗ No se proporcionó ruta de carpeta');
         return res.status(400).json({ error: 'Ruta de carpeta requerida' });
       }
 
       // Verificar que la carpeta existe
+      console.log('⏳ Verificando existencia de carpeta...');
       const exists = await fs.pathExists(folderPath);
       if (!exists) {
+        console.log('✗ Carpeta no encontrada');
         return res.status(404).json({ error: 'Carpeta no encontrada' });
       }
+      console.log('✓ Carpeta encontrada');
 
       const projectId = uuidv4();
+      console.log(`🆔 Project ID generado: ${projectId}`);
       
       // Analizar repositorio Git
+      console.log('⚙️  Analizando repositorio Git...');
       const analysisResult = await GitService.analyzeRepository(folderPath);
+      console.log(`✓ Análisis completado - Commits: ${analysisResult.commits?.length || 0}`);
 
       const projectData = {
         id: projectId,
