@@ -6,9 +6,11 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "dev:clean": "electron .",
     "backend": "cd backend && node server.js",
     "backend:dev": "cd backend && npm run dev",
     "dev:full": "concurrently \"npm run backend\" \"npm run dev\"",
+    "dev:full:clean": "concurrently \"npm run backend\" \"npm run dev:clean\"",
     "install:backend": "cd backend && npm install",
     "install:all": "npm install && npm run install:backend",
     "build": "electron-builder",
